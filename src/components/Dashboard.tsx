@@ -19,6 +19,10 @@ import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import Masonry from '@mui/lab/Masonry';
+import Devices from "./Devices"
+import Stream from "./Stream";
+import Events from "./Events"
 
 const drawerWidth = 240;
 
@@ -96,29 +100,12 @@ export default function Dashboard() {
         sx={{width: '100vw', marginTop: '64px'}}
       >
         <Container maxWidth="lg">
-          <Box sx={{ height: '100vh', paddingTop:"1.5em", paddingX:"1em"}}>
-          <Card sx={{ minWidth: 275 }}>
-            <CardContent>
-              <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                Word of the Day
-              </Typography>
-              <Typography variant="h5" component="div">
-                be{bull}nev{bull}o{bull}lent
-              </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                adjective
-              </Typography>
-              <Typography variant="body2">
-                well meaning and kindly.
-                <br />
-                {'"a benevolent smile"'}
-              </Typography>
-            </CardContent>
-            <CardActions>
-
-              <Button size="small">Learn More</Button>
-            </CardActions>
-          </Card>
+          <Box sx={{ height: '100%', paddingTop:"1.5em", paddingX:"1em"}}>
+            <Masonry columns={{sm:1, md:2}} spacing={{sm:1, md:2}}>
+              <Devices />
+              <Stream />
+              <Events />
+            </Masonry>
           </Box>
         </Container>
       </Box>
