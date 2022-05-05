@@ -60,7 +60,7 @@ export default function Events() {
             }
             setEvents(es => [...es, e])
           })
-          .otherwise(() => { })
+          .otherwise(() => {})
       }
     }
 
