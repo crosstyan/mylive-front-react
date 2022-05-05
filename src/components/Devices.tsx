@@ -5,7 +5,7 @@ import * as changeCase from "change-case"
 import { Card, Alert, CardHeader, CardContent, Box } from "@mui/material";
 import CardActions from '@mui/material/CardActions'
 import { Paper, TableContainer, TableHead, TableRow, TableCell, TableBody, Table } from '@mui/material'
-import { type Dev, type DeviceOL, type DeviceDB, fetchDevices, devicesSlice } from '../store/devicesSlice'
+import { type Dev, type DeviceOL, type DeviceDB, fetchDevices, devicesSlice } from '../store/devices'
 // import { useSelector, useDispatch } from 'react-redux'
 import { useAppSelector, useAppDispatch } from '../store'
 
@@ -32,6 +32,7 @@ function isDevOnline(dev: Dev) {
 
 export default function Devices() {
   const dispatch = useAppDispatch()
+
   // const [devices, setDevices] = useState<Array<Dev>>([]);
   const devices = useAppSelector(state => state.devices.content)
   useEffect(() => {

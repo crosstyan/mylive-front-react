@@ -1,10 +1,12 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import devicesReducer  from './devicesSlice'
+import devicesReducer  from './devices'
+import eventsReducer from './events'
 import { configureStore } from '@reduxjs/toolkit'
 
 export const store = configureStore({
   reducer: {
-    devices: devicesReducer
+    devices: devicesReducer,
+    events: eventsReducer
   },
 })
 

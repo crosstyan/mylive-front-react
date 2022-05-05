@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { config } from '../config'
 import { groupBy, flow, flatten, filter } from 'lodash'
-import { type RootState } from '.'
 
 export interface StoredMsg {
   message: string;
@@ -49,8 +48,6 @@ const initDev: Devices = {
   content: []
 }
 
-
-
 export const fetchDevices = createAsyncThunk(
   "fetchDevices",
   async (thunkAPI): Promise<Dev[]> => {
@@ -60,7 +57,6 @@ export const fetchDevices = createAsyncThunk(
     return mergeDevices(devDB, devOL)
   }
 )
-
 
 export const devicesSlice = createSlice({
   name: 'devices',
