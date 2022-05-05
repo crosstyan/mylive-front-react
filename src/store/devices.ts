@@ -38,6 +38,7 @@ export function mergeDevices(devicesDB: Array<DeviceDB>, devicesOL: Array<Device
   return unique.concat(duplicate)
 }
 
+
 interface Devices {
   status: "success" | "pending" | "failed"
   content: Dev[]

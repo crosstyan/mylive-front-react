@@ -1,12 +1,14 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import devicesReducer  from './devices'
 import eventsReducer from './events'
+import streamReducer from './stream'
 import { configureStore } from '@reduxjs/toolkit'
 
 export const store = configureStore({
   reducer: {
     devices: devicesReducer,
-    events: eventsReducer
+    events: eventsReducer,
+    stream: streamReducer
   },
 })
 

@@ -8,19 +8,7 @@ import { Paper, TableContainer, TableHead, TableRow, TableCell, TableBody, Table
 import { type Dev, type DeviceOL, type DeviceDB, fetchDevices, devicesSlice } from '../store/devices'
 // import { useSelector, useDispatch } from 'react-redux'
 import { useAppSelector, useAppDispatch } from '../store'
-
-// (def device
-//   {:id              integer?
-//    :hash            integer?
-//    (ds/opt :name)   string?                                 ; name
-//    :last-msg        stored-msg-spec
-//    (ds/opt :e-chan) string?                                 ; hex representation of emergency channel
-//    (ds/opt :chan)   string?})
-// (def stored-msg
-//   {:message       string?
-//    :port          integer?
-//    :host          string?
-//    (ds/opt :time) string?})
+import { sendStop, fetchChannel, setId, setStatus } from '../store/stream'
 
 
 // TODO: replace hyphen with underscore
@@ -49,6 +37,8 @@ export default function Devices() {
                 <TableCell> ID </TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Status</TableCell>
+                <TableCell>Action</TableCell>
+                <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -58,6 +48,13 @@ export default function Devices() {
                     <TableCell>{device.id}</TableCell>
                     <TableCell>{device.name}</TableCell>
                     <TableCell>{isDevOnline(device) ? 'Online' : 'Offline'}</TableCell>
+                    <TableCell><Button disabled={!isDevOnline(device)} onClick={() => {
+                      // TODO: set id in fetchChannel
+                      dispatch(fetchChannel(device.id))
+                      dispatch(setId(device.id))
+                      dispatch(setStatus("pending"))
+                    }}>Start</Button></TableCell>
+                    <TableCell><Button disabled={!isDevOnline(device)} onClick={() => sendStop(device.id)}>Stop</Button></TableCell>
                   </TableRow>
                 )
               })}

@@ -10,42 +10,24 @@ import TextField from '@mui/material/TextField';
 import { config } from '../config'
 import CircularProgress from '@mui/material/CircularProgress';
 import { isNaN } from "lodash";
+import { useAppSelector, useAppDispatch } from '../store'
 
 interface StartResp {
   chan: string
 }
 
-function sendStart(id: string): Promise<Response> {
-  const url = config.baseUrl + config.startRtmpApi
-  const with_id = url.replace("{id}", id)
-  return fetch(with_id, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json"
-    },
-  })
-}
-
-function sendStop(id: string): Promise<Response> {
-  const url = config.baseUrl + config.stopRtmpApi
-  const with_id = url.replace("{id}", id)
-  return fetch(with_id, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json"
-    },
-  })
-}
 
 export default function Stream() {
-  const [input, setInput] = useState(0)
-  const [isInputError, setIsInputError] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [chan, setChan] = useState("")
-  const [errText, setErrText] = useState("")
 
+  const stream = useAppSelector(state => state.stream)
+  const chan = useAppSelector(state => state.stream.chan)
+  const id = useAppSelector(state => state.stream.id)
+  const status = useAppSelector(state => state.stream.status)
+  const isLoading = useAppSelector(state => state.stream.status == 'pending')
+  const errText = useAppSelector(state => state.stream.error)
+  const lastPub = useAppSelector(state => state.stream.lastPubEvent)
 
-  const Player = (chan !== "") ? <ReactFlvPlayer
+  const Player = (chan !== "" && lastPub.content == "publish" && id == lastPub.id ) ? <ReactFlvPlayer
     url={config.flvApiUrl + config.flvApi + chan}
     width='100%' isLive={true} hasAudio={false} hasVideo={true} /> : null
 
@@ -53,61 +35,16 @@ export default function Stream() {
 
   const Err = (errText !== "") ? <Alert severity="error">{errText}</Alert> : null
 
-  const Text =
-    <TextField sx={{marginTop:"0.75em"}} error={isInputError} helperText={isInputError ? "id should be number and greater than 0" : ""} label="ID" variant="standard" onChange={(e => {
-      const input = e.target.value
-      const id = parseInt(input, 10)
-      if (!isNaN(id) && id > 0) {
-        setInput(id)
-        setIsInputError(false)
-      } else {
-        setIsInputError(true)
-      }
-    })} />
-
-  return (
-    <Card sx={{ minWidth: 275 }}>
+  const card = 
+    <Card>
       <CardHeader title="Stream" />
       <CardContent>
         {Err}
         {BoxedPlayer}
         {isLoading ? <LinearProgress /> : null}
         <Divider />
-        {Text}
       </CardContent>
-      <CardActions>
-        {isLoading ?
-          null :
-          <Button onClick={(e) => {
-            if (!isInputError && input !== 0) {
-              const res = sendStart(input.toString())
-              setIsLoading(true)
-              res.then((r) => r.json()).then((elem: StartResp) => {
-                if (elem.chan !== undefined) {
-                  setTimeout(() => {
-                    setChan(elem.chan)
-                    setIsLoading(false)
-                  }, 10000)
-                }
-              }).catch((e) => {
-                console.warn(e.toString())
-                setIsLoading(false)
-                setErrText(e.toString())
-              })
-            }
-          }}>Start</Button>
-        }
-        <Button onClick={(e) => {
-          if (!isInputError) {
-            const res = sendStop(input.toString())
-            res.catch((e) => {
-              console.warn(e)
-              setErrText(e.toString())
-              console.log(e.toString())
-            })
-          }
-        }}>Stop</Button>
-      </CardActions>
     </Card>
-  )
+
+  return card
 }

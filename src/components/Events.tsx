@@ -10,38 +10,46 @@ import { type EventDisplay, addEvent } from '../store/events'
 import { Paper, TableContainer, TableHead, TableRow, TableCell, TableBody, Table } from '@mui/material'
 import { useAppSelector, useAppDispatch } from '../store'
 import { match, P } from 'ts-pattern';
+import { setLastPub, PubEvent, setStatus } from '../store/stream'
 
 const ws = new WebSocket(config.wsApiUrl)
 
 
 export default function Events() {
   const events = useAppSelector(state => state.events)
+  const id = useAppSelector(state => state.stream.id)
   const dispatch = useAppDispatch()
-  const onMsg = (event: MessageEvent<any>) => {
-    const msg = JSON.parse(event.data)
-    console.log(msg)
-    if (msg.type !== undefined) {
-      match([msg.type])
-        .with(["rtmp"], () => {
-          const e: EventDisplay = {
-            id: msg.content.id,
-            event: msg.type,
-            content: msg.content.cmd
-          }
-          dispatch(addEvent(e))
-        })
-        .with(["online"], () => {
-          const e: EventDisplay = {
-            id: msg.content.id,
-            event: msg.type,
-            content: msg.content.name
-          }
-          dispatch(addEvent(e))
-        })
-        .otherwise(() => { })
-    }
-  }
   useEffect(() => {
+    const onMsg = (event: MessageEvent<any>) => {
+      const msg = JSON.parse(event.data)
+      console.log(msg)
+      if (msg.type !== undefined) {
+        match([msg.type])
+          .with(["rtmp"], () => {
+            const e: EventDisplay = {
+              id: msg.content.id,
+              event: msg.type,
+              content: msg.content.cmd
+            }
+            console.log(e)
+            console.log(id)
+            if (e.content == "publish") {
+              dispatch(setLastPub(e as PubEvent))
+              dispatch(setStatus("success"))
+            }
+            dispatch(addEvent(e))
+          })
+          .with(["online"], () => {
+            const e: EventDisplay = {
+              id: msg.content.id,
+              event: msg.type,
+              content: msg.content.name
+            }
+            dispatch(addEvent(e))
+          })
+          .otherwise(() => { })
+      }
+    }
     ws.onmessage = onMsg
     return () => ws.removeEventListener("message", onMsg)
   }, [])
