@@ -49,14 +49,6 @@ export default function Dashboard() {
       </List>
     </div>
   );
-  const bull = (
-    <Box
-      component="span"
-      sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-    >
-      •
-    </Box>
-  );
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -74,7 +66,7 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Responsive drawer
+            Elevator Dashboard
           </Typography>
         </Toolbar>
       </AppBar>
@@ -100,8 +92,8 @@ export default function Dashboard() {
         sx={{width: '100vw', marginTop: '64px'}}
       >
         <Container maxWidth="lg">
-          <Box sx={{ height: '100%', paddingTop:"1.5em", paddingX:"1em"}}>
-            <Masonry columns={{sm:1, md:2}} spacing={{sm:1, md:2}}>
+          <Box sx={{ height: '100%', paddingTop:"1.5em", paddingX:{sm:"0.3em", md:"1em"} }}>
+            <Masonry columns={{sm:1, md:2}} spacing={2}>
               <Devices />
               <Stream />
               <Events />

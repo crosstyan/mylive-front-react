@@ -31,11 +31,15 @@ export default function Events() {
               event: msg.type,
               content: msg.content.cmd
             }
-            console.log(e)
-            console.log(id)
+            // console.log(id)
             if (e.content == "publish") {
               dispatch(setLastPub(e as PubEvent))
               dispatch(setStatus("success"))
+              console.log(e)
+            }
+            if (e.content == "deleteStream") {
+              dispatch(setLastPub(e as PubEvent))
+              console.log(e)
             }
             dispatch(addEvent(e))
           })

@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import { ReactFlvPlayer } from "./ReactFlvPlayer";
 import { Alert, CardHeader, Box, LinearProgress, Divider } from "@mui/material";
 import Card from '@mui/material/Card'
@@ -26,6 +26,7 @@ export default function Stream() {
   const isLoading = useAppSelector(state => state.stream.status == 'pending')
   const errText = useAppSelector(state => state.stream.error)
   const lastPub = useAppSelector(state => state.stream.lastPubEvent)
+  const [ifStream, setIfStream] = useState(false)
 
   const Player = (chan !== "" && lastPub.content == "publish" && id == lastPub.id ) ? <ReactFlvPlayer
     url={config.flvApiUrl + config.flvApi + chan}
@@ -45,6 +46,5 @@ export default function Stream() {
         <Divider />
       </CardContent>
     </Card>
-
   return card
 }

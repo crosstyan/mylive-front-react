@@ -52,7 +52,8 @@ export const fetchChannel = createAsyncThunk(
 )
 
 export interface PubEvent extends EventDisplay {
-  event: "publish"
+  event: "rtmp"
+  content: "publish" | "deleteStream"
 }
 
 export const streamSlice = createSlice({

@@ -27,7 +27,7 @@ export default function Devices() {
     dispatch(fetchDevices())
   }, [])
   return (
-    <Card>
+    <Card sx={{maxWidth: "100%"}}>
       <CardHeader title="Devices" />
       <CardContent>
         <TableContainer component={Paper}>
