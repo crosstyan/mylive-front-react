@@ -29,11 +29,8 @@ export interface EventDisplay {
   content: string
 }
 
-const ws = new WebSocket(config.wsApiUrl)
-
-
 export const eventsSlice = createSlice({
-  name: 'devices',
+  name: 'events',
   initialState: [] as EventDisplay[],
   reducers: {
     addEvent: (state, action: PayloadAction<EventDisplay>) => {

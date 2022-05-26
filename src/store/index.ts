@@ -2,13 +2,17 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import devicesReducer  from './devices'
 import eventsReducer from './events'
 import streamReducer from './stream'
+import accSlice from './acc'
+import pressureSlice from './pressure'
 import { configureStore } from '@reduxjs/toolkit'
 
 export const store = configureStore({
   reducer: {
     devices: devicesReducer,
     events: eventsReducer,
-    stream: streamReducer
+    stream: streamReducer,
+    acc: accSlice,
+    pressure: pressureSlice,
   },
 })
 

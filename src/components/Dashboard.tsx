@@ -23,6 +23,8 @@ import Masonry from '@mui/lab/Masonry';
 import Devices from "./Devices"
 import Stream from "./Stream";
 import Events from "./Events"
+import Acc from "./Acc"
+import Pressure from "./Pressure"
 
 const drawerWidth = 240;
 
@@ -97,6 +99,8 @@ export default function Dashboard() {
               <Devices />
               <Stream />
               <Events />
+              <Acc />
+              <Pressure />
             </Masonry>
           </Box>
         </Container>
